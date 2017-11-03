@@ -10,9 +10,10 @@ parser.add_argument('-p', '--parameter', required=True, type=str, help='injected
 parser.add_argument('-v', '--verbose', action='count', default=0, help='increased detail')
 args = parser.parse_args()
 
-print '[+] sending requests to: {0} with the following parameter: {1}'.format(args.url, args.parameter)
+print '[+] url: {0}, parameter: {1}'.format(args.url, args.parameter)
 with open(args.file, 'rb') as f:
-    print '[+] reading file: {0}'.format(args.file)
+    print '[+] code read from file: {0}'.format(args.file)
+    print '[+] sending requests...'
     status_codes = []
     for line in f.readlines():
         # eliminate whitespace & newlines
