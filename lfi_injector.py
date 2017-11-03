@@ -10,8 +10,9 @@ parser.add_argument('-p', '--parameter', required=True, type=str, help='injected
 parser.add_argument('-v', '--verbose', action='count', default=0, help='increased detail')
 args = parser.parse_args()
 
-
+print '[+] sending requests to: {0} with the following parameter: {1}'.format(args.url, args.parameter)
 with open(args.file, 'rb') as f:
+    print '[+] reading file: {0}'.format(args.file)
     status_codes = []
     for line in f.readlines():
         # eliminate whitespace & newlines
@@ -36,16 +37,16 @@ with open(args.file, 'rb') as f:
             print
 
         if args.verbose > 0:
-            print 'sending: {0}'.format(url)
+            print '[+] sending: {0}'.format(url)
         r = requests.get(url)
         status_codes.append(r.status_code)
         if args.verbose > 0:
             if r.status_code == 200:
-                print 'Success!'
+                print '[+] success!'
             else:
-                print 'Error: {0} - {1}'.format(r.status_code, r.reason)
+                print '[!] error: {0} - {1}'.format(r.status_code, r.reason)
 
 if len(set(status_codes)) == 1 and 200 in set(status_codes):
-    print '100% successful transfer!'
+    print '[+] 100% successful transfer!'
 else:
-    print 'You encountered errors with the transfer. Response codes: {}'.format(set(status_codes))
+    print '[!] You encountered errors with the transfer. Response codes: {}'.format(set(status_codes))
