@@ -1,6 +1,8 @@
 # lfi_injector
 
-Reads code (or anything else) from a file, url encodes it, and makes a request for each line, so as to attempt to gain LFI code execution. Use of the `inject` parameter will precede the requests with the necessary php code (otherwise, this will need to be done manually).
+Reads code (or anything else) from a file, url encodes it, and makes a request for each line, so as to attempt to gain LFI code execution. Use of the `inject` parameter will precede the requests with the necessary php code (otherwise, this will need to be done manually)
+
+Prerequisites: The system must be vulnerable to LFI and the appropriate susceptible URL must be used (do your research)
 
 ## Usage
 
